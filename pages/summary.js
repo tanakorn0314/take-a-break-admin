@@ -1,10 +1,10 @@
 import React from 'react';
 import withMainLayout from '../src/hocs/withMainLayout';
 
-const ManagePage = props => {
+const SummaryPage = props => {
     return (
-        <div>Manage Page</div>
+        <div>Summary Page</div>
     )
 }
 
-export default withMainLayout(ManagePage);
+export default withMainLayout(SummaryPage);

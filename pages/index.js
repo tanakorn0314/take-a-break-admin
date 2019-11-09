@@ -1,10 +1,19 @@
 import withMainLayout from "../src/hocs/withMainLayout";
+import CreateForm from "../src/components/CreateForm";
 
 const HomePage = props => {
     return (
-        <div>
-            <p className='text-light'>Test</p>
-            <h1>H1</h1>
+        <div className='container'>
+            <h3>Create Promotion</h3>
+                <CreateForm type='Promotion'/>
+            <style jsx>{`
+                .container {
+                   padding: 12px;
+                }
+                h3 {
+                    margin-bottom: 10px;
+                }
+            `}</style>
         </div>
     )
 }
