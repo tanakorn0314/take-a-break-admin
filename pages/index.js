@@ -1,7 +1,12 @@
+import withMainLayout from "../src/hocs/withMainLayout";
+
 const HomePage = props => {
     return (
-        <div>Home Page</div>
+        <div>
+            <p className='text-light'>Test</p>
+            <h1>H1</h1>
+        </div>
     )
 }
 
-export default HomePage;
+export default withMainLayout(HomePage);
