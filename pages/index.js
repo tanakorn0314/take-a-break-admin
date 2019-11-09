@@ -1,27 +1,31 @@
 import withMainLayout from "../src/hocs/withMainLayout";
-import CreateForm from "../src/components/CreateForm";
-import Promotion from '../src/components/Promotion';
+import { compose } from 'redux';
+import { promotionActions } from "../src/redux/promotion/action";
+import HomeScreen from "../src/screens/Home";
+import Head from 'next/head';
+import { connect } from 'react-redux';
+import { useEffect } from "react";
 
-const HomePage = props => {
-    return (
-        <div className='container'>
-            <h3>Promotion</h3>
-                <Promotion/>
+const Page = Screen => {
+    const HomePage = props => {
+        useEffect(() => {
+            props.getPromotions();
+        }, [])
+        return (<Screen {...props} />);
+    }
 
-            <h3>Create Promotion</h3>
-                <CreateForm type='Promotion'/>
-
-            
-            <style jsx>{`
-                .container {
-                   padding: 12px;
-                }
-                h3 {
-                    margin-bottom: 10px;
-                }
-            `}</style>
-        </div>
-    )
+    return connect(state => state.Promotion, promotionActions)(HomePage);
 }
 
-export default withMainLayout(HomePage);
+const HomePage = compose(Page, withMainLayout);
+
+export default HomePage(props => {
+    return (
+        <>
+            <Head>
+                <title>Home</title>
+            </Head>
+            <HomeScreen {...props} />
+        </>
+    )
+})

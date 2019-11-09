@@ -3,16 +3,8 @@ import Button from './Button';
 import { Icon } from 'antd';
 
 const Promotion = props => {
-    const promotion = {
-        name: 'kfc kfckfckasdasdasdaskdpsaodkpaskdpasokdpoakdp',
-        description: 'fried chicken asdal;sdm;asmd;asdmlasmd;amd;amsd;lasm',
-        price: 200,
-        imageUrl: 'https://cdn.livekindly.co/wp-content/uploads/2018/05/vegan-plant-based-news-kfc-vegan-livekindly-1068x601.jpg',
-    }
-
-    const [available, setAvailable] = useState(true);
-
-    const { name, description, price, imageUrl } = promotion;
+    const { name, description, price, imageUrl, available: initAvailable } = props.data;
+    const [available, setAvailable] = useState(initAvailable);
 
     return (
         <div className='container'>
