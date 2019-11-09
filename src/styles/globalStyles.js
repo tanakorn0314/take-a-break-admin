@@ -26,6 +26,7 @@ const globalStyles = css.global`
         margin: 0;
         color: var(--gray);
         font-family: 'Roboto', sans-serrif;
+        word-break: break-all;
     }
 
     * {
@@ -59,6 +60,14 @@ const globalStyles = css.global`
     h4 {
         font-weight: 400;
         font-size: 1em;
+    }
+
+    .text-muted {
+        color: var(--gray-light);
+    }
+
+    .small {
+        font-size: .6em;
     }
 
 `;

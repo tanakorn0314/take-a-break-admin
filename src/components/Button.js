@@ -1,20 +1,36 @@
 import React from 'react';
+import { Icon } from 'antd';
 
 const Button = props => {
     return (
         <button {...props} className={`${props.className} ${props.color}`}>
+            {
+                props.icon && (
+                    <span className='icon'>
+                        <Icon type={props.icon} />
+                    </span>
+                )
+            }
             {props.children}
             <style jsx>{`
                 button {
                     border-radius: 4px;
-                    padding: 2px 20px;
+                    padding: 2px 10px;
                     cursor: pointer;
                     transition: color 0.1s ease-in-out;
 
                     border: 1px solid var(--gray);
                     background-color: whitel
                     color: var(--gray);
-                    // outline: -webkit-focus-ring-color auto 5px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: .9em;
+                    min-width: 80px;
+                }
+                .icon {
+                    margin-right: 4px;
+                    color: inherit;
                 }
                 .blue {
                     border: 1px solid var(--blue-dark);

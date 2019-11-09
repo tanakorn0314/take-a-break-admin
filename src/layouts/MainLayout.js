@@ -50,7 +50,7 @@ const MainLayout = props => {
                     background-color: var(--yellow-light);
                 }
                 .content {
-                    height: calc(100vh);
+                    min-height: calc(100vh);
                     margin-bottom: 48px;
                 }
                 .bottom-bar {
