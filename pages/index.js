@@ -5,6 +5,7 @@ import HomeScreen from "../src/screens/Home";
 import Head from 'next/head';
 import { connect } from 'react-redux';
 import { useEffect } from "react";
+import withAuth from "../src/hocs/withAuth";
 
 const Page = Screen => {
     const HomePage = props => {
@@ -17,7 +18,7 @@ const Page = Screen => {
     return connect(state => state.Promotion, promotionActions)(HomePage);
 }
 
-const HomePage = compose(Page, withMainLayout);
+const HomePage = compose(Page, withMainLayout, withAuth);
 
 export default HomePage(props => {
     return (

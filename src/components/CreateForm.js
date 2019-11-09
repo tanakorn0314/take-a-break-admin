@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import useFormInput from '../hook/useFormInput';
 import Button from '../components/Button';
-import getDB from '../lib/db';
-import firebase from 'firebase/app';
+import getFirebase from '../lib/firebase';
+import firebase, { auth } from 'firebase/app';
 import { promotionActions } from '../redux/promotion/action';
 import { connect } from 'react-redux';
+import upload from '../lib/upload';
+
+
 
 const CreateForm = props => {
 
-    const { db, storage } = getDB();
+    const { db, storage } = getFirebase();
     const { type } = props;
 
     const name = useFormInput('');
@@ -21,6 +24,8 @@ const CreateForm = props => {
         const file = e.target.files[0]
         const reader = new FileReader();
 
+        console.log(file)
+
         setFile(file);
 
         reader.onload = (e) => {
@@ -32,57 +37,20 @@ const CreateForm = props => {
         }
     }
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
+
+        const downloadUrl = await upload(file, (progress) => {
+            console.log('Upload is ' + progress + '% done');
+        });
+
+        setImageUrl(downloadUrl);
         props.addPromotion({
             name: name.value,
             description: description.value,
             price: price.value,
-            imageUrl: imageUrl,
+            imageUrl: downloadUrl,
             available: false
         })
-        // let storageRef = storage.ref().child('/test');
-        // let uploadTask = storageRef.put(file);
-
-        // uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-        //     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        //     console.log('Upload is ' + progress + '% done');
-        //     switch (snapshot.state) {
-        //         case firebase.storage.TaskState.PAUSED: // or 'paused'
-        //             console.log('Upload is paused');
-        //             break;
-        //         case firebase.storage.TaskState.RUNNING: // or 'running'
-        //             console.log('Upload is running');
-        //             break;
-        //     }
-        // }, (error) => {
-        //     switch (error.code) {
-        //         case 'storage/unauthorized':
-        //             console.log(`User doesn't have permission to access the object`);
-        //             break;
-        //         case 'storage/canceled':
-        //             console.log(`User canceled the upload`)
-        //             break;
-        //         case 'storage/unknown':
-        //             console.log(`Unknown error occurred, inspect error.serverResponse`)
-        //             break;
-        //     }
-        // }, () => {
-        //     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-        //         setImageUrl(downloadURL);
-        //         db.collection(type.toLowerCase()).add({
-        //             name: name.value,
-        //             description: description.value,
-        //             price: price.value,
-        //             imageUrl: downloadURL,
-        //             available: false
-        //         }).then((ref) => {
-        //             console.log(ref)
-        //         }).catch(e => {
-        //             console.error(e);
-        //         })
-        //     });
-        // })
-
 
     }
 
