@@ -21,6 +21,8 @@ const globalStyles = css.global`
         --gray: #535353;
         --gray-light: #AFAFAF;
         --gray-light2: #e8e8e8;
+        --gray-light3: #F8F8F8;
+
     }
 
     h1, h2, h3, h4, h5, h6, p, ul, li, ol {
