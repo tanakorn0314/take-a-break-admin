@@ -5,16 +5,16 @@ export const orderActionTypes = {
 }
 
 export const orderActions = {
-    // getOrder: () => (dispatch, getState) => {
-    //     const { db } = getFirebase();
-    //     db.collection('order').onSnapshot((snapshot) => {
-    //         let arr = [];
-    //         snapshot.forEach((res) => {
-    //             arr.push({ id: res.id, ...res.data() });
-    //         });
-    //         dispatch({ type: orderActionTypes.GET_ORDER, payload: [...arr] })
-    //     })
-    // },
+    getOrder: () => (dispatch, getState) => {
+        const { db } = getFirebase();
+        db.collection('order').onSnapshot((snapshot) => {
+            let arr = [];
+            snapshot.forEach((res) => {
+                arr.push({ id: res.id, ...res.data() });
+            });
+            dispatch({ type: orderActionTypes.GET_ORDER, payload: [...arr] })
+        })
+    },
     addOrder: (data) => (dispatch, getState) => {
         const { db } = getFirebase();
         return db.collection('order').add(data)

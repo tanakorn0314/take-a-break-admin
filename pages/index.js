@@ -1,4 +1,4 @@
-import withMainLayout from "../src/hocs/withMainLayout";
+import withCustomerLayout from "../src/hocs/withCustomerLayout";
 import { compose } from 'redux';
 import { promotionActions } from "../src/redux/promotion/action";
 import { menuActions } from "../src/redux/menu/action";
@@ -20,7 +20,7 @@ const Page = Screen => {
     return connect(state => state.Promotion, { ...promotionActions, ...menuActions })(HomePage);
 }
 
-const HomePage = compose(Page, withMainLayout, withAuth);
+const HomePage = compose(Page, withCustomerLayout, withAuth);
 
 export default HomePage(props => {
     return (

@@ -3,7 +3,7 @@ import { Icon } from 'antd';
 
 const Button = props => {
     return (
-        <button {...props} className={`${props.className} ${props.color}`}>
+        <button {...props} className={`${props.className ? props.className : ''} ${props.color} ${props.size ? ` ${props.size}` : ''}`}>
             {
                 props.icon && (
                     <span className='icon'>
@@ -46,6 +46,10 @@ const Button = props => {
                     border: 1px solid var(--green-dark);
                     background-color: var(--green-light);
                     color: var(--green-dark);
+                }
+                .small {
+                    padding: 0px 6px;
+                    min-width: 40px;
                 }
             `}</style>
         </button>

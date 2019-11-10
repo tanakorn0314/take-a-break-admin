@@ -22,8 +22,8 @@ const MainLayout = props => {
                 </div>
             </div>
             <div className='bottom-bar'>
-                <Link href='/'>
-                    <a className={`link ${path === '' ? 'selected' : ''}`}>
+                <Link href='/order'>
+                    <a className={`link ${path === 'order' ? 'selected' : ''}`}>
                         <Icon type='form' />
                         <p>Order</p>
                     </a>
