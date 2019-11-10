@@ -15,7 +15,6 @@ const HomeScreen = props => {
 
     const [order, setOrder] = useState({});
 
-    console.log(order);
     const totalCount = Object.values(order).reduce((prev, cur) => prev + cur.count, 0);
     const totalPrice = Object.values(order).reduce((prev, cur) => prev + cur.price, 0);
 

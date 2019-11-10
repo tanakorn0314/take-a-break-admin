@@ -16,7 +16,7 @@ const ConfirmOrderModal = props => {
     const disabled = customerName.value.length <= 0;
 
     const createOrder = async () => {
-        if (disabled) return;
+        if (disabled || loading) return;
         setLoading(true);
 
         const data = {

@@ -17,12 +17,6 @@ const OrderScreen = props => {
         props.updateOrder({ ...data, status: 'accepted' });
     }
 
-    const handleDelete = (index) => {
-        if (index % PAGE_SIZE === 0 && page > 0)
-            setPage(page - 1);
-        setVisible(false);
-    }
-
     const renderOrders = () => {
         if (!orders)
             return <Icon type='loading' />
@@ -34,7 +28,10 @@ const OrderScreen = props => {
             .sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate())
 
         if (filteredOrders.length === 0)
-            return <div>--- No Order ---</div>
+            return <div>--- No Order ---</div>;
+
+        if (filteredOrders.length <= start)
+            setPage(Math.floor((filteredOrders.length) / PAGE_SIZE));
 
         return (
             <div className='list'>
@@ -76,7 +73,6 @@ const OrderScreen = props => {
                                     data={orderData}
                                     visible={visible}
                                     onCancel={() => setVisible(false)}
-                                    onDelete={() => handleDelete(index)}
                                 />
                             </div>
                         ))

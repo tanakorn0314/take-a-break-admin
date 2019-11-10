@@ -19,25 +19,19 @@ const ManageScreen = props => {
     const [promotionPage, setPromotionPage] = useState(1);
     const [menuPage, setMenuPage] = useState(1);
 
-    const handleDeletePromotion = (index) => {
-        props.deletePromotion(index)
-        if (index % PAGE_SIZE === 0)
-            setPromotionPage(page - 1);
-    }
-
-    const handleDeleteMenu = (index) => {
-        if (index % PAGE_SIZE === 0)
-            setMenuPage(page - 1);
-    }
-
     const renderPromotions = () => {
         if (!promotions)
             return (<Icon type='loading' />);
+
         else if (promotions.length === 0)
             return <div>---- No promotions ----</div>
 
         const start = (promotionPage - 1) * PAGE_SIZE;
         const end = (promotionPage) * PAGE_SIZE;
+
+        if (promotions.length <= start)
+            setPromotionPage(Math.floor((promotions.length) / PAGE_SIZE));
+
         return (
             <div className='list'>
                 {
@@ -47,7 +41,7 @@ const ManageScreen = props => {
                             data={promotion}
                             editable
                             onChange={(data) => props.updatePromotion(data)}
-                            onDelete={(id) => handleDeletePromotion(id)}
+                            onDelete={(id) => props.deletePromotion(id)}
                             type='Promotion'
                         />
                     ))
@@ -65,6 +59,10 @@ const ManageScreen = props => {
 
         const start = (menuPage - 1) * PAGE_SIZE;
         const end = (menuPage) * PAGE_SIZE;
+
+        if (menus.length <= start)
+            setMenuPage(Math.floor((menus.length) / PAGE_SIZE));
+
         return (
             <div className='list'>
                 {

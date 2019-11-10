@@ -35,10 +35,11 @@ const CreateForm = props => {
     }
 
     const handleCreate = async () => {
+        if (loading) return;
         setLoading(true);
 
         const res = await uploadFile(file);
-        const { downloadURL, imageName} = res;
+        const { downloadURL, imageName } = res;
 
         setImageUrl(downloadURL);
 
@@ -58,7 +59,6 @@ const CreateForm = props => {
         }
 
         setLoading(false);
-
     }
 
     return (

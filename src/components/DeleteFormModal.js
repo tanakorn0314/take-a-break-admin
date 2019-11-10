@@ -17,7 +17,7 @@ const DeleteFormModal = props => {
         if (type === 'Promotion') {
             props.deletePromotion(data.id);
             removeFile(data.imageName);
-        } else if (type === 'Menu'){
+        } else if (type === 'Menu') {
             props.deleteMenu(data.id);
             removeFile(data.imageName);
         } else if (type === 'Order') {
@@ -28,9 +28,9 @@ const DeleteFormModal = props => {
             description: `${type} was deleted`,
             duration: 2
         })
-        
-        props.onDelete();
-        props.onCancel();
+
+        props.onDelete && props.onDelete(data.id);
+        props.onCancel && props.onCancel();
         setLoading(false);
     }
 
