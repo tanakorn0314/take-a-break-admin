@@ -2,8 +2,16 @@ import React from 'react';
 import { Icon } from 'antd';
 
 const ProductDetail = props => {
-    const { type, data } = props;
+    const { type, data, count } = props;
     const { name, description, imageUrl, price } = data;
+
+    const c = count || 0;
+
+    const handleReduce = e => {
+        e.stopPropagation();
+        props.onReduce && props.onReduce();
+    }
+
     return (
         <div className='content'>
             <img src={imageUrl} />
@@ -11,10 +19,10 @@ const ProductDetail = props => {
                 <h4>{type === 'Promotion' ? '<Promotion> ' : ''}{name}</h4>
                 <p>{description}</p>
             </div>
-            <div className='price'>
+            <div className={`price`} onClick={handleReduce}>
                 <h4>{price}</h4>
-                <p>
-                    <Icon type='shopping-cart'/> 5
+                <p className={`${c > 0 ? 'selected' : ''}`}>
+                    {c > 0 && <span> - </span>} <Icon type='shopping-cart' /> {c}
                 </p>
             </div>
             <style jsx>{`
@@ -46,13 +54,14 @@ const ProductDetail = props => {
                 flex-direction: column;
                 align-items: flex-end;
             }
+            .price .selected {
+                color: #61D061;
+            }
             p {
                 font-size: .9em;
                 color: var(--gray-light);
             }
-            .price .selected {
-                color: #61D061;
-            }
+            
             `}</style>
         </div>
     )

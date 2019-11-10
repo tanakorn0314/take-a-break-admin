@@ -5,8 +5,8 @@ import UpdateFormModal from './UpdateFormModal';
 import DeleteFormModal from './DeleteFormModal';
 import ProductDetail from './ProductDetail';
 
-const Promotion = props => {
-    const { data, type, editable } = props;
+const Product = props => {
+    const { data, type, editable, count } = props;
     const { available } = data;
 
     const [modal, setModal] = useState('');
@@ -17,7 +17,7 @@ const Promotion = props => {
 
     return (
         <div className='container' onClick={(e) => props.onClick && props.onClick()}>
-            <ProductDetail data={data} type={type}/>
+            <ProductDetail data={data} type={type} count={count} onReduce={props.onReduce}/>
             {
                 editable && (
                     <div className='action'>
@@ -61,4 +61,4 @@ const Promotion = props => {
     )
 }
 
-export default Promotion;
+export default Product;

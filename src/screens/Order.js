@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Pagination, Icon } from 'antd';
+import { Pagination, Icon, notification } from 'antd';
 import Product from '../components/Product';
+import ConfirmOrderModal from '../components/ConfirmOrderModal';
 
 const PAGE_SIZE = 5;
 
@@ -10,11 +11,26 @@ const OrderScreen = props => {
     const { promotions, menus } = props;
     const [promotionPage, setPromotionPage] = useState(1);
     const [menuPage, setMenuPage] = useState(1);
+    const [visible, setVisible] = useState(false);
 
-    const [order, setOrder] = useState([]);
+    const [order, setOrder] = useState({});
 
-    const addOrder = (product) => {
-        setOrder([...order, product]);
+    const totalCount = Object.values(order).reduce((prev, cur) => prev + cur.count, 0);
+    const totalPrice = Object.values(order).reduce((prev, cur) => prev + cur.price, 0);
+
+    const addOrder = (key, value) => {
+        // console.log(key, value);
+        if (!order[key]) {
+            setOrder({ ...order, [key]: { count: 1, price: value.price, data: value } })
+        } else {
+            setOrder({ ...order, [key]: { count: order[key].count + 1, price: order[key].price + value.price, data: value } })
+        }
+    }
+
+    const reduceOrder = (key, value) => {
+        if (order[key] && order[key].count > 0) {
+            setOrder({ ...order, [key]: { count: order[key].count - 1, price: order[key].price - value.price, data: value } })
+        } 
     }
 
     const renderPromotions = () => {
@@ -32,7 +48,9 @@ const OrderScreen = props => {
                             key={index}
                             data={promotion}
                             type='Promotion'
-                            onClick={() => { addOrder(promotion) }}
+                            onClick={() => { addOrder(`promotion-${start+index}`, promotion) }}
+                            onReduce={() => { reduceOrder(`promotion-${start+index}`, promotion) }}
+                            count={order[`promotion-${start+index}`] ? order[`promotion-${start+index}`].count : 0}
                         />
                     ))
                 }
@@ -63,7 +81,9 @@ const OrderScreen = props => {
                             key={index}
                             data={menu}
                             type='Menu'
-                            onClick={() => addOrder(menu)}
+                            onClick={() => { addOrder(`menu-${start+index}`, menu) }}
+                            onReduce={() => { reduceOrder(`menu-${start+index}`, menu) }}
+                            count={order[`menu-${start+index}`] ? order[`menu-${start+index}`].count : 0}
                         />
                     ))
                 }
@@ -74,6 +94,15 @@ const OrderScreen = props => {
                 }
             </div>
         )
+    }
+
+    const handleCreateOrder = () => {
+        setVisible(false);
+        notification['success']({
+            message: 'Success',
+            description: 'Your order is created',
+            duration: 2
+        })
     }
 
     return (
@@ -89,16 +118,16 @@ const OrderScreen = props => {
                 {renderMenus()}
             </div>
             {
-                order.length > 0 && (
+                totalCount > 0 && (
                     <>
-                        <div className='order-tab'>
+                        <div className='order-tab'  onClick={() => setVisible(true)}>
                             <div className='order-button'>
                                 <div className='left'>
                                     <h4>Order</h4>
-                                    <p>{order.length} Items</p>
+                                    <p>{totalCount} Items</p>
                                 </div>
                                 <div className='right'>
-                                    <h4>฿{order.reduce((prev, cur) => prev + cur.price, 0)}</h4>
+                                    <h4>฿{totalPrice}</h4>
                                 </div>
                             </div>
                         </div>
@@ -106,6 +135,7 @@ const OrderScreen = props => {
                     </>
                 )
             }
+            <ConfirmOrderModal visible={visible} onCancel={() => setVisible(false)} order={order} onCreateOrder={handleCreateOrder}/>
             <style jsx>{`
                 .content {
                     padding: 10px;
