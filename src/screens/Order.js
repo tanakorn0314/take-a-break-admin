@@ -18,7 +18,7 @@ const OrderScreen = props => {
     }
 
     const handleDelete = (index) => {
-        if (index % PAGE_SIZE === 0)
+        if (index % PAGE_SIZE === 0 && page > 0)
             setPage(page - 1);
         setVisible(false);
     }
@@ -32,8 +32,6 @@ const OrderScreen = props => {
 
         const filteredOrders = orders.filter((orderData) => !orderData.status)
             .sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate())
-
-        console.log(filteredOrders, filteredOrders.length)
 
         if (filteredOrders.length === 0)
             return <div>--- No Order ---</div>
@@ -78,7 +76,7 @@ const OrderScreen = props => {
                                     data={orderData}
                                     visible={visible}
                                     onCancel={() => setVisible(false)}
-                                    onDeleted={() => handleDelete(index)}
+                                    onDelete={() => handleDelete(index)}
                                 />
                             </div>
                         ))

@@ -54,6 +54,9 @@ const DeleteFormModal = props => {
                 .ant-modal-body, .ant-modal-header {
                     padding: 12px;
                 }
+                .ant-modal-mask {
+                    background-color: rgba(0, 0, 0, .1)
+                }
             `}</style>
             <style jsx>{`
                 .body {

@@ -15,11 +15,12 @@ const HomeScreen = props => {
 
     const [order, setOrder] = useState({});
 
+    console.log(order);
     const totalCount = Object.values(order).reduce((prev, cur) => prev + cur.count, 0);
     const totalPrice = Object.values(order).reduce((prev, cur) => prev + cur.price, 0);
 
     const addOrder = (key, value) => {
-        // console.log(key, value);
+        value = key === 'Promotion' ? { ...value, name: `<Promotion> ${value.name}` } : value;
         if (!order[key]) {
             setOrder({ ...order, [key]: { count: 1, price: value.price, data: value } })
         } else {
@@ -28,9 +29,14 @@ const HomeScreen = props => {
     }
 
     const reduceOrder = (key, value) => {
-        if (order[key] && order[key].count > 0) {
-            setOrder({ ...order, [key]: { count: order[key].count - 1, price: order[key].price - value.price, data: value } })
-        } 
+        if (order[key]) {
+            if (order[key].count > 1) {
+                setOrder({ ...order, [key]: { count: order[key].count - 1, price: order[key].price - value.price, data: value } })
+            } else if (order[key].count === 1) {
+                delete order[key];
+                setOrder({ ...order });
+            }
+        }
     }
 
     const renderPromotions = () => {
@@ -48,9 +54,9 @@ const HomeScreen = props => {
                             key={index}
                             data={promotion}
                             type='Promotion'
-                            onClick={() => { addOrder(`promotion-${start+index}`, promotion) }}
-                            onReduce={() => { reduceOrder(`promotion-${start+index}`, promotion) }}
-                            count={order[`promotion-${start+index}`] ? order[`promotion-${start+index}`].count : 0}
+                            onClick={() => { addOrder(`promotion-${start + index}`, promotion) }}
+                            onReduce={() => { reduceOrder(`promotion-${start + index}`, promotion) }}
+                            count={order[`promotion-${start + index}`] ? order[`promotion-${start + index}`].count : 0}
                         />
                     ))
                 }
@@ -81,9 +87,9 @@ const HomeScreen = props => {
                             key={index}
                             data={menu}
                             type='Menu'
-                            onClick={() => { addOrder(`menu-${start+index}`, menu) }}
-                            onReduce={() => { reduceOrder(`menu-${start+index}`, menu) }}
-                            count={order[`menu-${start+index}`] ? order[`menu-${start+index}`].count : 0}
+                            onClick={() => { addOrder(`menu-${start + index}`, menu) }}
+                            onReduce={() => { reduceOrder(`menu-${start + index}`, menu) }}
+                            count={order[`menu-${start + index}`] ? order[`menu-${start + index}`].count : 0}
                         />
                     ))
                 }
@@ -120,7 +126,7 @@ const HomeScreen = props => {
             {
                 totalCount > 0 && (
                     <>
-                        <div className='order-tab'  onClick={() => setVisible(true)}>
+                        <div className='order-tab' onClick={() => setVisible(true)}>
                             <div className='order-button'>
                                 <div className='left'>
                                     <h4>Order</h4>
@@ -135,7 +141,7 @@ const HomeScreen = props => {
                     </>
                 )
             }
-            <ConfirmOrderModal visible={visible} onCancel={() => setVisible(false)} order={order} onCreateOrder={handleCreateOrder}/>
+            <ConfirmOrderModal visible={visible} onCancel={() => setVisible(false)} order={order} onCreateOrder={handleCreateOrder} />
             <style jsx>{`
                 .content {
                     padding: 10px;
