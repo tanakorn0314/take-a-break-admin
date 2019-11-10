@@ -13,7 +13,7 @@ const InputTime = props => {
             <div className='day'>
                 <Select value={day} style={{ minWidth: 60 }} showSearch onSelect={d => props.onSelect && props.onSelect('day', d)}>
                     {
-                        _.range(1, 31).map((v) => (
+                        _.range(1, 32).map((v) => (
                             <Option key={v} value={v}>{v}</Option>
                         ))
                     }
