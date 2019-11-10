@@ -21,9 +21,13 @@ const ProductDetail = props => {
             </div>
             <div className={`price`} onClick={handleReduce}>
                 <h4>{price}</h4>
-                <p className={`${c > 0 ? 'selected' : ''}`}>
-                    {c > 0 && <span> - </span>} <Icon type='shopping-cart' /> {c}
-                </p>
+                {
+                    props.onReduce && (
+                        <p className={`${c > 0 ? 'selected' : ''}`}>
+                            {c > 0 && <span> - </span>} <Icon type='shopping-cart' /> {c}
+                        </p>
+                    )
+                }
             </div>
             <style jsx>{`
             .content {
