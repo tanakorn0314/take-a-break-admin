@@ -9,17 +9,17 @@ const MainLayout = props => {
     const router = useRouter();
     const path = router.pathname.substr(1, router.pathname.length);
 
-    console.log(path);
-
     return (
         <div className='container'>
-            <div className='top-bar'>
-                <div className='top-bar-content'>
-                    <h2>TAKE A BREAK</h2>
+            <div className='main-content'>
+                <div className='top-bar'>
+                    <div className='top-bar-content'>
+                        <h2>TAKE A BREAK</h2>
+                    </div>
                 </div>
-            </div>
-            <div className='content'>
-                {props.children}
+                <div className='content'>
+                    {props.children}
+                </div>
             </div>
             <div className='bottom-bar'>
                 <Link href='/'>
@@ -43,6 +43,14 @@ const MainLayout = props => {
             </div>
             <style jsx global>{globalStyles}</style>
             <style jsx>{`
+                .main-content {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 48px;
+                    overflow-y: auto;
+                }
                 .top-bar {
                     box-shadow: 1px 0 6px 1px rgba(0,0,0,0.15);
                     text-align: center;
@@ -51,7 +59,7 @@ const MainLayout = props => {
                 }
                 .content {
                     min-height: calc(100vh);
-                    margin-bottom: 48px;
+                    padding-bottom: 10px;
                 }
                 .bottom-bar {
                     box-shadow: 0px -1px 6px 1px rgba(0,0,0,0.15);
