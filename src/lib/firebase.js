@@ -7,7 +7,6 @@ import { firebaseConfig } from '../config';
 function getFirebase() {
     try {
         firebase.initializeApp(firebaseConfig);
-        firebase.firestore().enablePersistence()
     } catch (e) {
         // console.error(e);
     } finally {
