@@ -33,7 +33,7 @@ const Product = props => {
                             </span>
                         </div>
                         <UpdateFormModal type={type} data={data} onCancel={() => setModal('')} visible={modal === 'update'}/>
-                        <DeleteFormModal type={type} data={data} onCancel={() => setModal('')} visible={modal === 'delete'}/>
+                        <DeleteFormModal type={type} data={data} onCancel={() => setModal('')} visible={modal === 'delete'} onDelete={props.onDelete}/>
                     </div>
                 )
             }

@@ -111,7 +111,7 @@ const UpdateFormModal = props => {
                 <Button size='small' onClick={props.onCancel}>Cancel</Button>
             </div>
             <style jsx global>{`
-                .ant-modal-body {
+                .ant-modal-body, .ant-modal-header {
                     padding: 12px;
                 }
             `}</style>

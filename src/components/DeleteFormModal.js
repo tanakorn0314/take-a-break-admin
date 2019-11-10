@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { promotionActions } from '../redux/promotion/action';
 import { connect } from 'react-redux';
-import { Modal, Button } from 'antd';
+import { Modal, Button, notification } from 'antd';
 import { removeFile } from '../lib/uploadFile';
 import { menuActions } from '../redux/menu/action';
+import { orderActions } from '../redux/order/action';
 
 const DeleteFormModal = props => {
 
@@ -11,14 +12,24 @@ const DeleteFormModal = props => {
 
     const [loading, setLoading] = useState(false);
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         setLoading(true);
         if (type === 'Promotion') {
             props.deletePromotion(data.id);
-        } else {
+            removeFile(data.imageName);
+        } else if (type === 'Menu'){
             props.deleteMenu(data.id);
+            removeFile(data.imageName);
+        } else if (type === 'Order') {
+            props.deleteOrder(data.id);
         }
-        removeFile(data.imageName);
+        notification['success']({
+            message: 'Delete Success',
+            description: `${type} was deleted`,
+            duration: 2
+        })
+        
+        props.onDelete();
         props.onCancel();
         setLoading(false);
     }
@@ -40,7 +51,7 @@ const DeleteFormModal = props => {
                 <Button size='small' onClick={props.onCancel}>Cancel</Button>
             </div>
             <style jsx global>{`
-                .ant-modal-body {
+                .ant-modal-body, .ant-modal-header {
                     padding: 12px;
                 }
             `}</style>
@@ -64,4 +75,4 @@ const DeleteFormModal = props => {
     )
 }
 
-export default connect(state => state.Promotion, { ...promotionActions, ...menuActions })(DeleteFormModal);
+export default connect(state => state.Promotion, { ...promotionActions, ...menuActions, ...orderActions })(DeleteFormModal);

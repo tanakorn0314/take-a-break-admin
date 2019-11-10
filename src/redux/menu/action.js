@@ -7,7 +7,7 @@ export const menuActionTypes = {
 export const menuActions = {
     getMenus: () => (dispatch, getState) => {
         const { db } = getFirebase();
-        db.collection('menu').onSnapshot((snapshot) => {
+        return db.collection('menu').onSnapshot((snapshot) => {
             let arr = [];
             snapshot.forEach((res) => {
                 arr.push({ id: res.id, ...res.data() });
@@ -17,15 +17,15 @@ export const menuActions = {
     },
     addMenu: (data) => (dispatch, getState) => {
         const { db } = getFirebase();
-        db.collection('menu').add(data)
+        return db.collection('menu').add(data)
     },
     updateMenu: (data) => (dispatch, getState) => {
         const { id, ...restData } = data;
         const { db } = getFirebase();
-        db.doc(`menu/${id}`).update({ ...restData });
+        return db.doc(`menu/${id}`).update({ ...restData });
     },
     deleteMenu: (id) => (dispatch, getState) => {
         const { db } = getFirebase();
-        db.doc(`menu/${id}`).delete();
+        return db.doc(`menu/${id}`).delete();
     }
 }

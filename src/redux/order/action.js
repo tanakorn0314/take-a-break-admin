@@ -7,7 +7,7 @@ export const orderActionTypes = {
 export const orderActions = {
     getOrder: () => (dispatch, getState) => {
         const { db } = getFirebase();
-        db.collection('order').onSnapshot((snapshot) => {
+        return db.collection('order').onSnapshot((snapshot) => {
             let arr = [];
             snapshot.forEach((res) => {
                 arr.push({ id: res.id, ...res.data() });
@@ -19,13 +19,13 @@ export const orderActions = {
         const { db } = getFirebase();
         return db.collection('order').add(data)
     },
-    // updateMenu: (data) => (dispatch, getState) => {
-    //     const { id, ...restData } = data;
-    //     const { db } = getFirebase();
-    //     db.doc(`order/${id}`).update({ ...restData });
-    // },
-    // deleteMenu: (id) => (dispatch, getState) => {
-    //     const { db } = getFirebase();
-    //     db.doc(`order/${id}`).delete();
-    // }
+    updateOrder: (data) => (dispatch, getState) => {
+        const { id, ...restData } = data;
+        const { db } = getFirebase();
+        db.doc(`order/${id}`).update({ ...restData });
+    },
+    deleteOrder: (id) => (dispatch, getState) => {
+        const { db } = getFirebase();
+        return db.doc(`order/${id}`).delete();
+    }
 }

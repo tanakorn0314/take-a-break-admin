@@ -19,6 +19,17 @@ const ManageScreen = props => {
     const [promotionPage, setPromotionPage] = useState(1);
     const [menuPage, setMenuPage] = useState(1);
 
+    const handleDeletePromotion = (index) => {
+        props.deletePromotion(index)
+        if (index % PAGE_SIZE === 0)
+            setPromotionPage(page - 1);
+    }
+
+    const handleDeleteMenu = (index) => {
+        if (index % PAGE_SIZE === 0)
+            setMenuPage(page - 1);
+    }
+
     const renderPromotions = () => {
         if (!promotions)
             return (<Icon type='loading' />);
@@ -36,7 +47,7 @@ const ManageScreen = props => {
                             data={promotion}
                             editable
                             onChange={(data) => props.updatePromotion(data)}
-                            onDelete={(id) => props.deletePromotion(id)}
+                            onDelete={(id) => handleDeletePromotion(id)}
                             type='Promotion'
                         />
                     ))
