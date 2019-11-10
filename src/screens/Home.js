@@ -15,6 +15,9 @@ const HomeScreen = props => {
 
     const [order, setOrder] = useState({});
 
+    const filteredPromotions = promotions ? promotions.filter(promotion => promotion.available) : [];
+    const filteredMenus = menus ? menus.filter(menu => menu.available) : [];
+
     const totalCount = Object.values(order).reduce((prev, cur) => prev + cur.count, 0);
     const totalPrice = Object.values(order).reduce((prev, cur) => prev + cur.price, 0);
 
@@ -39,7 +42,7 @@ const HomeScreen = props => {
     }
 
     const renderPromotions = () => {
-        if (!promotions || promotions.length === 0)
+        if (!filteredPromotions || filteredPromotions.length === 0)
             return <div></div>
 
         const start = (promotionPage - 1) * PAGE_SIZE;
@@ -48,7 +51,7 @@ const HomeScreen = props => {
         return (
             <div className='list'>
                 {
-                    promotions.filter(promotion => promotion.available).slice(start, end).map((promotion, index) => (
+                    filteredPromotions.slice(start, end).map((promotion, index) => (
                         <Product
                             key={index}
                             data={promotion}
@@ -60,8 +63,8 @@ const HomeScreen = props => {
                     ))
                 }
                 {
-                    promotions.length > PAGE_SIZE && (
-                        <Pagination size='small' onChange={(p) => setPromotionPage(p)} current={promotionPage} total={promotions.length} pageSize={PAGE_SIZE} />
+                    filteredPromotions.length > PAGE_SIZE && (
+                        <Pagination size='small' onChange={(p) => setPromotionPage(p)} current={promotionPage} total={filteredPromotions.length} pageSize={PAGE_SIZE} />
 
                     )
                 }
@@ -72,7 +75,7 @@ const HomeScreen = props => {
     const renderMenus = () => {
         if (!menus)
             return (<Icon type='loading' />);
-        else if (menus.length === 0)
+        else if (filteredMenus.length === 0)
             return <div>Sorry, no currently available menu</div>
 
         const start = (menuPage - 1) * PAGE_SIZE;
@@ -81,7 +84,7 @@ const HomeScreen = props => {
         return (
             <div className='list'>
                 {
-                    menus.filter(menu => menu.available).slice(start, end).map((menu, index) => (
+                    filteredMenus.slice(start, end).map((menu, index) => (
                         <Product
                             key={index}
                             data={menu}
@@ -93,8 +96,8 @@ const HomeScreen = props => {
                     ))
                 }
                 {
-                    menus.length > PAGE_SIZE && (
-                        <Pagination size='small' onChange={(p) => setMenuPage(p)} current={menuPage} total={menus.length} pageSize={PAGE_SIZE} />
+                    filteredMenus.length > PAGE_SIZE && (
+                        <Pagination size='small' onChange={(p) => setMenuPage(p)} current={menuPage} total={filteredMenus.length} pageSize={PAGE_SIZE} />
                     )
                 }
             </div>
@@ -114,7 +117,7 @@ const HomeScreen = props => {
         <div className='container'>
             <div className='content'>
                 {
-                    promotions && promotions.length > 0 && (
+                    filteredPromotions && filteredPromotions.length > 0 && (
                         <h3>Promotions</h3>
                     )
                 }
