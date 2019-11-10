@@ -8,24 +8,29 @@ const randomName = () => {
     return s1 + s2 + '_' + s3;
 }
 
-const upload = (file, onProgress, onError = null) => {
+export const uploadFile = (file, onProgress = null, onError = null) => {
     return new Promise((resolve, reject) => {
         let { storage } = getFirebase();
-        let storageRef = storage.ref().child(randomName());
+        const imageName = randomName();
+        let storageRef = storage.ref().child(imageName);
         let uploadTask = storageRef.put(file);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
             let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            onProgress(progress);
+            onProgress && onProgress(progress);
         }, (e) => {
             onError && onError(e);
         }, () => {
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                resolve(downloadURL);
+                resolve({ downloadURL, imageName });
             });
         })
     })
 
 }
 
-export default upload;
+export const removeFile = (fileName) => {
+    let { storage } = getFirebase();
+    let storageRef = storage.ref().child(fileName);
+    return storageRef.delete();
+}

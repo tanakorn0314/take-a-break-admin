@@ -20,13 +20,20 @@ const globalStyles = css.global`
         --yellow-light: #FFE8A8;
         --gray: #535353;
         --gray-light: #AFAFAF;
+        --gray-light2: #e8e8e8;
     }
 
-    body, div, span, h1, h2, h3, h4, h5, h6, p, ul, li, ol, button {
+    h1, h2, h3, h4, h5, h6, p, ul, li, ol {
         margin: 0;
         color: var(--gray);
         font-family: 'Roboto', sans-serrif;
         word-break: break-all;
+    }
+
+    body, div, span, button {
+        word-break: break-all;
+        margin: 0;
+        font-family: 'Roboto', sans-serrif;
     }
 
     * {
@@ -68,6 +75,14 @@ const globalStyles = css.global`
 
     .small {
         font-size: .6em;
+    }
+    
+    //antd
+    .ant-btn {
+        font-weight: 200;
+    }
+    .ant-tabs-nav {
+        font-weight: 200 !important;
     }
 
 `;

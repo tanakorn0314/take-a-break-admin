@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import useFormInput from '../hook/useFormInput';
-import Button from '../components/Button';
-import getFirebase from '../lib/firebase';
-import firebase, { auth } from 'firebase/app';
 import { promotionActions } from '../redux/promotion/action';
 import { connect } from 'react-redux';
-import upload from '../lib/upload';
-
-
+import { uploadFile, removeFile } from '../lib/uploadFile';
+import { Button } from 'antd';
+import { menuActions } from '../redux/menu/action';
 
 const CreateForm = props => {
 
-    const { db, storage } = getFirebase();
     const { type } = props;
 
     const name = useFormInput('');
@@ -20,11 +16,12 @@ const CreateForm = props => {
     const [imageUrl, setImageUrl] = useState('/static/images/add_image.png');
     const [file, setFile] = useState();
 
+    const [loading, setLoading] = useState(false);
+
+
     const handleSelectImage = e => {
         const file = e.target.files[0]
         const reader = new FileReader();
-
-        console.log(file)
 
         setFile(file);
 
@@ -38,19 +35,29 @@ const CreateForm = props => {
     }
 
     const handleCreate = async () => {
+        setLoading(true);
 
-        const downloadUrl = await upload(file, (progress) => {
-            console.log('Upload is ' + progress + '% done');
-        });
+        const res = await uploadFile(file);
+        const { downloadURL, imageName} = res;
 
-        setImageUrl(downloadUrl);
-        props.addPromotion({
+        setImageUrl(downloadURL);
+
+        const data = {
             name: name.value,
             description: description.value,
-            price: price.value,
-            imageUrl: downloadUrl,
+            price: +price.value,
+            imageUrl: downloadURL,
+            imageName,
             available: false
-        })
+        }
+
+        if (type === 'Promotion') {
+            props.addPromotion(data);
+        } else {
+            props.addMenu(data);
+        }
+
+        setLoading(false);
 
     }
 
@@ -75,7 +82,7 @@ const CreateForm = props => {
                 </div>
             </label>
             <div>
-                <Button color='blue' onClick={handleCreate}>Create</Button>
+                <Button type='primary' loading={loading} onClick={handleCreate}>Create</Button>
             </div>
             <style jsx>{`
                 .container {
@@ -111,4 +118,4 @@ const CreateForm = props => {
     )
 }
 
-export default connect(state => state.Promotion, promotionActions)(CreateForm);
+export default connect(state => state.Promotion, { ...promotionActions, ...menuActions })(CreateForm);

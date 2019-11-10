@@ -10,7 +10,7 @@ const { TabPane } = Tabs;
 
 const PAGE_SIZE = 5;
 
-const HomeScreen = props => {
+const ManageScreen = props => {
 
     const { promotions, menus } = props;
 
@@ -104,4 +104,4 @@ const HomeScreen = props => {
     )
 }
 
-export default connect(state => ({ ...state.Promotion, ...state.Menu }), { ...promotionActions, ...menuActions })(HomeScreen);
+export default connect(state => ({ ...state.Promotion, ...state.Menu }), { ...promotionActions, ...menuActions })(ManageScreen);
