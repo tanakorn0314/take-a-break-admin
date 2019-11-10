@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from 'antd';
 
 const ProductDetail = props => {
     const { type, data } = props;
@@ -12,6 +13,9 @@ const ProductDetail = props => {
             </div>
             <div className='price'>
                 <h4>{price}</h4>
+                <p>
+                    <Icon type='shopping-cart'/> 5
+                </p>
             </div>
             <style jsx>{`
             .content {
@@ -36,6 +40,18 @@ const ProductDetail = props => {
             }
             .name-price h4 {
                 flex: 1;
+            }
+            .price {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            p {
+                font-size: .9em;
+                color: var(--gray-light);
+            }
+            .price .selected {
+                color: #61D061;
             }
             `}</style>
         </div>

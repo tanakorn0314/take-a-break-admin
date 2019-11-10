@@ -16,7 +16,7 @@ const Promotion = props => {
     }
 
     return (
-        <div className='container'>
+        <div className='container' onClick={(e) => props.onClick && props.onClick()}>
             <ProductDetail data={data} type={type}/>
             {
                 editable && (
@@ -41,7 +41,7 @@ const Promotion = props => {
                 .container {
                     width: 100%;
                     margin-bottom: 8px;
-                    border-bottom: 1px solid var(--gray-light);
+                    border-bottom: 1px solid var(--gray-light2);
                 }
                 
                 .action {
