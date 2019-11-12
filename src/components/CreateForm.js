@@ -18,6 +18,7 @@ const CreateForm = props => {
 
     const [loading, setLoading] = useState(false);
 
+    const disabled = name.value.length === 0 || !file;
 
     const handleSelectImage = e => {
         const file = e.target.files[0]
@@ -82,7 +83,7 @@ const CreateForm = props => {
                 </div>
             </label>
             <div>
-                <Button type='primary' loading={loading} onClick={handleCreate}>Create</Button>
+                <Button type='primary' loading={loading} onClick={handleCreate} disabled={disabled}>Create</Button>
             </div>
             <style jsx>{`
                 .container {
